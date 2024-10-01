@@ -1,5 +1,10 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:another_dashed_container/another_dashed_container.dart';
+import 'package:slide_switcher/slide_switcher.dart';
+import 'package:intl/intl.dart';
+
 
 void main() {
   runApp(const MainApp());
@@ -27,7 +32,6 @@ class _MainAppState extends State<MainApp> {
       home: Scaffold(
         backgroundColor: Color.fromARGB(255, 245, 245, 245),
         appBar: AppBar(
-
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -86,46 +90,15 @@ class _MainAppState extends State<MainApp> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Stack(
-                    clipBehavior: Clip.none,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Positioned(
-                        child: Container(
-                          width: 640,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 1.0,
-                              strokeAlign: 1
-                            ),
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(
-                              colors: [Color.fromARGB(255, 245, 245, 245), Colors.white],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              stops: [0, 1]
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(255, 200, 200, 200).withOpacity(.4),
-                                spreadRadius: 8,
-                                blurRadius: 16,
-                                offset: Offset(8, 8)
-                              ),
-                              BoxShadow(
-                                color: Colors.white,
-                                spreadRadius: 8,
-                                blurRadius: 16,
-                                offset: Offset(-8, -8)
-                              )
-                            ]
-                          ),
-                          child: Card(
-                            color: Colors.transparent,
-                            elevation: 0,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 20),
-                              child: Column(
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                            child: cardWShadow(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
@@ -254,51 +227,146 @@ class _MainAppState extends State<MainApp> {
                                     ],
                                   ),
                                 ],
+                              ), 600
+                            ),
+                          ),
+                          Positioned(
+                            left: -32,
+                            top: -32,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 12.0,
+                                ),
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                  colors: [Color.fromARGB(255, 230, 230, 230), Colors.white],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromARGB(255, 200, 200, 200).withOpacity(.4),
+                                    spreadRadius: 2,
+                                    blurRadius: 4,
+                                    offset: Offset(2, 2)
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.white,
+                                    spreadRadius: 2,
+                                    blurRadius: 4,
+                                    offset: Offset(-2, -2)
+                                  )
+                                ]
                               ),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                radius: 48,
+                                child: Icon(Icons.person,
+                                  size: 48,
+                                  color: Color.fromARGB(255, 100, 100, 100),
+                                )
+                              ),  
+                            ),
+                          ),
+                        ],
+                      ),
+                      cardWInnerShadow(
+                        DashedContainer(
+                          dashColor: Color(0xff957fef).withOpacity(.4),
+                          borderRadius: 12.0,
+                          dashedLength: 4.0,
+                          blankLength: 4.0,
+                          strokeWidth: 2.0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("${DateFormat('MM-dd-yy').format(DateTime.now())}",
+                                  style: TextStyle(
+                                    fontFamily: "Montserrat",
+                                    fontSize: 80,
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 0  
+                                  )
+                                ),
+                                Row(
+                                  children: [
+                                    Text("${TimeOfDay.now().hourOfPeriod}:${TimeOfDay.now().minute.toString().padLeft(2, '0')}",
+                                      style: TextStyle(
+                                        fontFamily: "Montserrat",
+                                        fontSize: 80,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0  
+                                      )
+                                    ),
+                                    SizedBox(width: 24),
+                                    IgnorePointer(
+                                      child: SlideSwitcher(
+                                        containerColor: Colors.white,
+                                        slidersGradients: [
+                                          LinearGradient(
+                                            colors: [Color(0xff957fef), Color(0xffefd9ce)],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            stops:[0, 0.7]
+                                          )
+                                        ],
+                                        slidersBorder: Border.all(
+                                          width: 1,
+                                          color: Colors.white
+                                        ),
+                                        containerBoxShadow: [
+                                          BoxShadow(
+                                            color: Color.fromARGB(255, 200, 200, 200).withOpacity(.4),
+                                            spreadRadius: 2,
+                                            blurRadius: 4,
+                                            offset: Offset(2, 2)  
+                                          ),
+                                        ],
+                                        containerHeight: 64,
+                                        containerWight: 32,
+                                        direction: Axis.vertical,
+                                        children:[
+                                          Container(),
+                                          Container()
+                                        ],
+                                        onSelect: (index) => {},
+                                        isAllContainerTap: true,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Text("AM",
+                                          style: TextStyle(
+                                            fontFamily: "Montserrat",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500
+                                          )
+                                        ),
+                                        SizedBox(height: 4),
+                                        Text("PM",
+                                          style: TextStyle(
+                                            fontFamily: "Montserrat",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500
+                                          )
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ]
                             ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        left: -32,
-                        top: -32,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 12.0,
-                            ),
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                              colors: [Color.fromARGB(255, 230, 230, 230), Colors.white],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(255, 200, 200, 200).withOpacity(.4),
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: Offset(2, 2)
-                              ),
-                              BoxShadow(
-                                color: Colors.white,
-                                spreadRadius: 2,
-                                blurRadius: 4,
-                                offset: Offset(-2, -2)
-                              )
-                            ]
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            radius: 48,
-                            child: Icon(Icons.person,
-                              size: 48,
-                              color: Color.fromARGB(255, 100, 100, 100),
-                            )
-                          ),  
-                        ),
-                      ),
+                        800
+                      )
                     ],
                   ),
                   SizedBox(height: 12),
@@ -311,7 +379,138 @@ class _MainAppState extends State<MainApp> {
     );
   }
 
-  Container pillTag(String text) {
+  Widget cardWShadow(Widget widget, double size) {
+    return Container(
+      width: size,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.white,
+          width: 1.0,
+          strokeAlign: 1
+        ),
+        borderRadius: BorderRadius.circular(24),
+        gradient: LinearGradient(
+          colors: [Color.fromARGB(255, 245, 245, 245), Colors.white],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          stops: [0, 1]
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(255, 200, 200, 200).withOpacity(.4),
+            spreadRadius: 8,
+            blurRadius: 16,
+            offset: Offset(8, 8)
+          ),
+          BoxShadow(
+            color: Colors.white,
+            spreadRadius: 8,
+            blurRadius: 16,
+            offset: Offset(-8, -8)
+          )
+        ]
+      ),
+      child: Card(
+        color: Colors.transparent,
+        elevation: 0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 20),
+          child: widget
+        ),
+      ),
+    );
+  }
+
+  Widget cardWInnerShadow(Widget widget, double size) {
+    return Stack(
+      children: [
+        Container(
+          width: size,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.white,
+              width: 1.0,
+              strokeAlign: 1
+            ),
+            borderRadius: BorderRadius.circular(24),
+            color: Color.fromARGB(255, 230, 230, 230),
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromARGB(255, 200, 200, 200).withOpacity(.4),
+                spreadRadius: 8,
+                blurRadius: 16,
+                offset: Offset(8, 8)
+              ),
+              BoxShadow(
+                color: Colors.white,
+                spreadRadius: 8,
+                blurRadius: 16,
+                offset: Offset(-8, -8)
+              )
+            ]
+          ),
+          child: Card(
+            color: Colors.transparent,
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+              child: widget
+            ),
+          ),
+        ),
+        Positioned.fill(
+          top: 12,
+          left: 12,
+          child: ImageFiltered(
+            imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+            //filter: 
+            child: Container(
+              width: size,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.white,
+                  width: 1.0,
+                  strokeAlign: 1
+                ),
+                borderRadius: BorderRadius.circular(18),
+                //color: Colors.red,
+                gradient: LinearGradient(
+                  colors: [Color.fromARGB(255, 245, 245, 245), Colors.white],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  stops: [0, 1]
+                ),
+              ),
+              child: Card(
+                color: Colors.transparent,
+                elevation: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+                  child: Container(
+                    color: Colors.transparent
+                  )
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          width: size,
+          color: Colors.transparent,
+          child: Card(
+            color: Colors.transparent,
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+              child: widget
+            ),
+          ),
+        ),
+      ]
+    );
+  }
+
+  Widget pillTag(String text) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -463,5 +662,4 @@ class _MainAppState extends State<MainApp> {
       ),  
     );
   }
-
 }

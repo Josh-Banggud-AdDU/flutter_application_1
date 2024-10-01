@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^10.7.0
+  another_dashed_container: ^1.0.0
+  slide_switcher: ^1.1.2
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

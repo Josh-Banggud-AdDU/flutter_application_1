@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
@@ -37,3 +38,5 @@ flutter:
           weight: 800
         - asset: assets\fonts\Montserrat-Black.ttf
           weight: 900
+  assets:
+    - assets/images/
